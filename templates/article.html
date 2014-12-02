@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block head %}
+        {% block head %}
   {{ super() }}
   {% for keyword in article.keywords %}
     <meta name="keywords" contents="{{keyword}}" />
@@ -15,34 +15,46 @@
 
 {% endblock %}
 
-{% block content %}
-<section id="content" class="body">
-  <header>
-    <h2 class="entry-title">
-      <a href="{{ SITEURL }}/{{ article.url }}" rel="bookmark"
-         title="Permalink to {{ article.title|striptags }}">{{ article.title }}</a></h2>
- {% import 'translations.html' as translations with context %}
- {{ translations.translations_for(article) }}
-  </header>
-  <footer class="post-info">
-    <abbr class="published" title="{{ article.date.isoformat() }}">
+
+ {% block page_header %}
+    <!-- Page Header -->
+    <!-- Set your background image for this header on the line below. -->
+    <header class="intro-header" style="background-image: url('{{ SITEURL }}/theme/img/home-bg.jpg')">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                    <div class="post-heading">
+                        <h1>{{ article.title }}</h1>
+                        <h2 class="subheading"> {{ article.summary }}</h2>
+                        <span class="meta">Posted by {% for author in article.authors %}<a class="url fn" href="{{ SITEURL }}/{{ author.url }}">{{ author }}</a>{% endfor %} on   <abbr class="published" title="{{ article.date.isoformat() }}">
       {{ article.locale_date }}
     </abbr>
 	{% if article.modified %}
     <abbr class="modified" title="{{ article.modified.isoformat() }}">
       {{ article.locale_modified }}
     </abbr>
-	{% endif %}
-    {% if article.authors %}
-    <address class="vcard author">
-      By {% for author in article.authors %}
-          <a class="url fn" href="{{ SITEURL }}/{{ author.url }}">{{ author }}</a>
-        {% endfor %}
-    </address>
-    {% endif %}
-  </footer><!-- /.post-info -->
-  <div class="entry-content">
-    {{ article.content }}
-  </div><!-- /.entry-content -->
-</section>
+	{% endif %}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    {% endblock%}
+
+
+    {% block content %}
+    <!-- Post Content -->
+    <article>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+
+                    <p>{{ article.content }}</p>
+                    </div>
+            </div>
+        </div>
+    </article>
+
+    <hr>
 {% endblock %}
